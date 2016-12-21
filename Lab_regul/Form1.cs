@@ -18,6 +18,7 @@ namespace Lab_regul
         }
         Data data = new Data();
         System.Text.RegularExpressions.Match m;
+        string[] text_result;
         private void Open_File(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -30,12 +31,27 @@ namespace Lab_regul
                 data.fileName = dlg.FileName;
                 data.ReadFromFile();
                 richTextBox1.Text = data.txt;
-                data.ReadFromFile();
+                data.SplitText(text_result);
+                //data.ReadFromFile();
                 //sw.Stop();
                 //Console.WriteLine("{0}ms reading file", sw.ElapsedMilliseconds);
 
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ; i++)
+            {
+                Find();
+            }
+            
+        }
+
+        private void Find(string result)
+        {
+            m = data.Find(result);
         }
     }
 }
