@@ -17,6 +17,7 @@ namespace Lab_regul
             InitializeComponent();
         }
         Data data = new Data();
+        string max_string = "";
         System.Text.RegularExpressions.Match m;
         Dictionary<string, int> freq = new Dictionary<string,int>();
         private void Open_File(object sender, EventArgs e)
@@ -37,31 +38,41 @@ namespace Lab_regul
 
         private void button1_Click(object sender, EventArgs e)
         {
-            for (int i = 1; i < 2;/*i < data.result.Length;*/ i++)
+            for (int i = 1; i < data.result.Length; i++)
             {
                 Find(data.result[i]);
-                //freq = freq.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-                foreach (var p in freq)
-                {
-                    Console.Write(p.Key);
-                    Console.Write("-");
-                    Console.WriteLine(p.Value);
-                }
-                //var max = freq.Select(k => freq.Max());
-                var first = freq.Select(k => freq.First());
                 
+                var sorted = freq.OrderByDescending(d => d.Value);
+
+                var max = sorted.First();
+
+                foreach (var p in sorted)
+                {
+                    //Console.Write(i);
+                    //Console.Write(")");
+                    Console.Write(p.Key);
+                    Console.Write("----");
+                    Console.WriteLine(p.Value);
+                    if (p.Value < 0.8 * max.Value) break;
+                }
+                //string key = max.Key;
+                Console.Write(max.Key);
+                Console.Write(".....");
+                Console.WriteLine(max.Value);
+                Console.WriteLine("       ");
+                max_string =max_string+i+")"+max.Key + "----" + max.Value + "\n";
+                freq.Clear();
             }
-            
+            richTextBox2.Text = max_string;
         }
-        private void Add(string poisk)
+        private void Add(string r)
         {
             int n = 0;
-            //if (freq[m.ToString()] != 0 && !freq[m.ToString()])
-            if (freq.ContainsKey(m.ToString()))
+            if (freq.ContainsKey(r))
             {
-                n = freq[m.ToString()];
-                freq.Remove(m.ToString());
-                freq.Add(m.ToString(), n + 1);
+                n = freq[r];
+                freq.Remove(r);
+                freq.Add(r, n + 1);
             }
             else
             {
@@ -71,32 +82,14 @@ namespace Lab_regul
         private void Find(string result)
         {
             m = data.Find(result);
-            Add(m.ToString());
-            //if (freq[m.ToString()] != 0)
-            //{
-            //    n = freq[m.ToString()];
-            //    freq.Remove(m.ToString());
-            //    freq.Add(m.ToString(), n + 1);
-            //}
-            //else
-            //{
-            //    freq.Add(m.ToString(), 1);
-            //}
-            //foreach (var p in freq)
-            //{
-            //    if (m.ToString() == p.Key) p.Value = p.Value + 1;
-            //}
-            //Console.Write(m);
-            //Console.Write("-----");
+            Add(m.Value);
+            
             while(true)
             {
                 if (m != null && m.Success)
                 {
                     m = m.NextMatch();
-                    Add(m.ToString());
-                    //Console.Write(m);
-                    //Console.Write("-----");
-                    
+                    Add(m.Value);
                 }
                 else break;
                 
