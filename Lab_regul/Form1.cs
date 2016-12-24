@@ -71,8 +71,9 @@ namespace Lab_regul
             if (freq.ContainsKey(r))
             {
                 n = freq[r];
-                freq.Remove(r);
-                freq.Add(r, n + 1);
+                //freq.Remove(r);
+                freq[r] = n + 1;
+              //  freq.Add(r, n + 1);
             }
             else
             {
